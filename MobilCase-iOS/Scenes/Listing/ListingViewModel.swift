@@ -14,6 +14,7 @@ class ListingViewModel {
     private let productService: ProductServiceProtocol
 
     var onDataUpdated: (() -> Void)?
+    var onError: ((String) -> Void)?
 
     init(productService: ProductServiceProtocol = ProductService()) {
         self.productService = productService
@@ -28,8 +29,10 @@ class ListingViewModel {
                 self.allProducts = try await allProductsResponse
                 self.horizontalProducts = try await horizontalProductsResponse
                 onDataUpdated?()
+            } catch let error as NetworkError {
+                onError?(error.localizedDescription)
             } catch {
-                print("❌ Error fetching products: \(error.localizedDescription)")
+                onError?("An unexpected error occurred.")
             }
         }
     }

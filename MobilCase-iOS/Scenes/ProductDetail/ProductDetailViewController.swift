@@ -53,5 +53,17 @@ class ProductDetailViewController: UIViewController {
                 self.imageView.kf.setImage(with: url, placeholder: UIImage(named: "placeholder"))
             }
         }
+
+        viewModel.onError = { [weak self] errorMessage in
+            DispatchQueue.main.async {
+                self?.showErrorAlert(message: errorMessage)
+            }
+        }
+    }
+
+    private func showErrorAlert(message: String) {
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
 }

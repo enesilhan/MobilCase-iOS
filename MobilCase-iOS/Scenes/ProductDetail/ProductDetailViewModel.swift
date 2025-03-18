@@ -14,6 +14,7 @@ class ProductDetailViewModel {
 
     var product: Product?
     var onDataUpdated: (() -> Void)?
+    var onError: ((String) -> Void)?
 
     init(productID: Int, productService: ProductDetailServiceProtocol = ProductDetailService()) {
         self.productID = productID
@@ -25,8 +26,10 @@ class ProductDetailViewModel {
             do {
                 self.product = try await productService.fetchProductDetail(productID: productID)
                 onDataUpdated?()
+            } catch let error as NetworkError {
+                onError?(error.localizedDescription)
             } catch {
-                print("❌ Error fetching product detail: \(error.localizedDescription)")
+                onError?("An unexpected error occurred.")
             }
         }
     }
