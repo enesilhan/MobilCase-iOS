@@ -11,11 +11,12 @@ import Foundation
 class ListingViewModel {
     private var allProducts: [Product] = []
     private var horizontalProducts: [Product] = []
-    private let productService: ProductServiceProtocol
+    private let productService: ListingServiceProtocol
 
     var onDataUpdated: (() -> Void)?
+    var onError: ((String) -> Void)?
 
-    init(productService: ProductServiceProtocol = ProductService()) {
+    init(productService: ListingServiceProtocol = ListingService()) {
         self.productService = productService
     }
 
@@ -29,8 +30,16 @@ class ListingViewModel {
                 self.horizontalProducts = try await horizontalProductsResponse
                 onDataUpdated?()
             } catch {
-                print("❌ Error fetching products: \(error.localizedDescription)")
+                handleError(error)
             }
+        }
+    }
+
+    private func handleError(_ error: Error) {
+        if let networkError = error as? NetworkError {
+            onError?(networkError.localizedDescription)
+        } else {
+            onError?("An unexpected error occurred.")
         }
     }
 
