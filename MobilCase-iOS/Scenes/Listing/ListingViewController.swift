@@ -23,6 +23,7 @@ class ListingViewController: UIViewController {
     }
 
     private func setupCollectionView() {
+        collectionView.delegate = self
         collectionView.collectionViewLayout = createCompositionalLayout()
         collectionView.register(UINib(nibName: "HorizontalProductCell",
                                       bundle: nil), forCellWithReuseIdentifier: "HorizontalProductCell")
@@ -136,5 +137,14 @@ class ListingViewController: UIViewController {
         section.boundarySupplementaryItems = [header]
         
         return section
+    }
+}
+
+extension ListingViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let item = dataSource?.itemIdentifier(for: indexPath) else { return }
+        let selectedProduct = item.product
+        let detailVC = ProductDetailViewController(productID: selectedProduct.id ?? 0)
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 }
