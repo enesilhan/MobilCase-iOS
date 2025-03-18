@@ -10,28 +10,32 @@ import Foundation
 @MainActor
 class ListingViewModel {
     private var allProducts: [Product] = []
+    private var horizontalProducts: [Product] = []
+    private let productService: ProductServiceProtocol
+
     var onDataUpdated: (() -> Void)?
+
+    init(productService: ProductServiceProtocol = ProductService()) {
+        self.productService = productService
+    }
 
     func fetchProducts() {
         Task {
             do {
-                self.allProducts = try await NetworkManager.shared.request(
-                    from: .productList,
-                    method: .GET,
-                    body: nil,
-                    as: [Product].self
-                )
+                async let allProductsResponse = productService.fetchAllProducts()
+                async let horizontalProductsResponse = productService.fetchLimitedProducts(limit: 5)
+
+                self.allProducts = try await allProductsResponse
+                self.horizontalProducts = try await horizontalProductsResponse
                 onDataUpdated?()
             } catch {
+                print("❌ Error fetching products: \(error.localizedDescription)")
             }
         }
     }
 
     func getHorizontalProducts() -> [ProductSectionItem] {
-        
-        let horizontalItems = Array(allProducts.prefix(5)).map { ProductSectionItem.horizontal($0) }
-        return horizontalItems
-        
+        return horizontalProducts.map { ProductSectionItem.horizontal($0) }
     }
 
     func getVerticalProducts() -> [ProductSectionItem] {
