@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ListingViewController" customModule="MobilCase_iOS" customModuleProvider="target">
             <connections>
-                <outlet property="collectionView" destination="gMV-PM-7nz" id="T95-pF-eDc"/>
+                <outlet property="collectionView" destination="gMV-PM-7nz" id="b15-vR-268"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

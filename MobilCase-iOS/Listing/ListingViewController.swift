@@ -16,6 +16,7 @@ class ListingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Products"
         setupCollectionView()
         setupBindings()
         viewModel.fetchProducts()
@@ -25,24 +26,37 @@ class ListingViewController: UIViewController {
         collectionView.collectionViewLayout = createCompositionalLayout()
         collectionView.register(UINib(nibName: "HorizontalProductCell",
                                       bundle: nil), forCellWithReuseIdentifier: "HorizontalProductCell")
-        collectionView.register(UINib(nibName: "VerticalProductCell",
-                                      bundle: nil), forCellWithReuseIdentifier: "VerticalProductCell")
+
+        collectionView.register(UINib(nibName: "HeaderView",
+                                          bundle: nil),
+                                   forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                   withReuseIdentifier: HeaderView.reuseIdentifier)
 
         dataSource = UICollectionViewDiffableDataSource<Int, ProductSectionItem>(collectionView: collectionView) { collectionView, indexPath, item in
-
             switch item {
             case .horizontal(let product):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HorizontalProductCell",
                                                               for: indexPath) as! HorizontalProductCell
                 cell.configure(with: product)
                 return cell
-
             case .vertical(let product):
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VerticalProductCell",
-                                                              for: indexPath) as! VerticalProductCell
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HorizontalProductCell",
+                                                              for: indexPath) as! HorizontalProductCell
                 cell.configure(with: product)
                 return cell
             }
+        }
+
+        dataSource?.supplementaryViewProvider = { collectionView, kind, indexPath in
+            guard kind == UICollectionView.elementKindSectionHeader else { return nil }
+            let headerView = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: HeaderView.reuseIdentifier,
+                for: indexPath) as! HeaderView
+
+            let title = indexPath.section == 0 ? "Featured Products" : "All Products"
+            headerView.configure(with: title)
+            return headerView
         }
     }
 
@@ -55,19 +69,15 @@ class ListingViewController: UIViewController {
     private func updateSnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Int, ProductSectionItem>()
         snapshot.appendSections([0, 1])
-
         let horizontalItems = viewModel.getHorizontalProducts()
         let verticalItems = viewModel.getVerticalProducts()
-
         snapshot.appendItems(horizontalItems, toSection: 0)
         snapshot.appendItems(verticalItems, toSection: 1)
-
         dataSource?.apply(snapshot, animatingDifferences: true)
     }
 
     private func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { sectionIndex, environment in
-
             if sectionIndex == 0 {
                 return self.createHorizontalLayout()
             } else {
@@ -77,27 +87,54 @@ class ListingViewController: UIViewController {
     }
 
     private func createHorizontalLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.4), heightDimension: .fractionalHeight(1.0))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(170),
+                                              heightDimension: .absolute(270))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(150), heightDimension: .absolute(200))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(170),
+                                               heightDimension: .absolute(270))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
         let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 10
         section.orthogonalScrollingBehavior = .continuous
         section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .estimated(44))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top)
+        section.boundarySupplementaryItems = [header]
+
         return section
     }
 
     private func createVerticalLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5),
+                                             heightDimension: .absolute(270))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(250))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .absolute(270))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                      subitem: item,
+                                                      count: 2)
+        group.interItemSpacing = .fixed(10)
+        
         let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 10
         section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .estimated(44))
+        let header = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top)
+        section.boundarySupplementaryItems = [header]
+        
         return section
     }
 }
