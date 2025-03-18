@@ -26,11 +26,17 @@ class ProductDetailViewModel {
             do {
                 self.product = try await productService.fetchProductDetail(productID: productID)
                 onDataUpdated?()
-            } catch let error as NetworkError {
-                onError?(error.localizedDescription)
             } catch {
-                onError?("An unexpected error occurred.")
+                handleError(error)
             }
+        }
+    }
+
+    private func handleError(_ error: Error) {
+        if let networkError = error as? NetworkError {
+            onError?(networkError.localizedDescription)
+        } else {
+            onError?("An unexpected error occurred.")
         }
     }
 }

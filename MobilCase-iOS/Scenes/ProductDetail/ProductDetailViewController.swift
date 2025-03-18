@@ -10,13 +10,13 @@ import Kingfisher
 
 class ProductDetailViewController: UIViewController {
 
-    @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var categoryLabel: UILabel!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var ratingView: UIView!
-    @IBOutlet weak var ratingLabel: UILabel!
+    @IBOutlet private weak var imageView: UIImageView!
+    @IBOutlet private weak var categoryLabel: UILabel!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var priceLabel: UILabel!
+    @IBOutlet private weak var descriptionLabel: UILabel!
+    @IBOutlet private weak var ratingView: UIView!
+    @IBOutlet private weak var ratingLabel: UILabel!
     
     private let viewModel: ProductDetailViewModel
 
@@ -37,7 +37,7 @@ class ProductDetailViewController: UIViewController {
     }
 
     private func setupUI() {
-        self.ratingView.layer.cornerRadius = 13
+        ratingView.layer.cornerRadius = 13
     }
 
     private func setupBindings() {
@@ -45,7 +45,7 @@ class ProductDetailViewController: UIViewController {
             guard let self = self, let product = self.viewModel.product else { return }
             self.categoryLabel.text = product.category ?? ""
             self.titleLabel.text = product.title ?? ""
-            self.priceLabel.text = product.price != nil ? String(format: "$%.2f", product.price!) : "Price Unavailable"
+            self.priceLabel.text = product.price != nil ? String(format: "$%.2f", product.price!) : ""
             self.descriptionLabel.text = product.description ?? ""
             self.ratingLabel.text = product.rating?.rate != nil ? String(format: "%.1f", product.rating!.rate!) : ""
             
