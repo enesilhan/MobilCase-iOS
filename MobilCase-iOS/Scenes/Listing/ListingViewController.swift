@@ -126,8 +126,8 @@ class ListingViewController: UIViewController {
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .absolute(270))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                      subitem: item,
-                                                      count: 2)
+                                                       repeatingSubitem: item,
+                                                       count: 2)
         group.interItemSpacing = .fixed(10)
         
         let section = NSCollectionLayoutSection(group: group)
