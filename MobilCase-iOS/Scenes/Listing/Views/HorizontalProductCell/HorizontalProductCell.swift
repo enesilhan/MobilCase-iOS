@@ -16,16 +16,16 @@ class HorizontalProductCell: UICollectionViewCell {
     @IBOutlet private weak var priceLabel: UILabel!
     
     override func awakeFromNib() {
-            super.awakeFromNib()
-            setupUI()
-        }
-
-        private func setupUI() {
-            containerView.layer.borderWidth = 1
-            containerView.layer.borderColor = UIColor.systemGray.cgColor
-            containerView.layer.cornerRadius = 8
-            
-        }
+        super.awakeFromNib()
+        setupUI()
+    }
+    
+    private func setupUI() {
+        containerView.layer.borderWidth = 1
+        containerView.layer.borderColor = UIColor.systemGray.cgColor
+        containerView.layer.cornerRadius = 8
+        
+    }
 
     func configure(with product: Product) {
         titleLabel.text = product.title ?? ""
