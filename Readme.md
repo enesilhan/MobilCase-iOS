@@ -18,6 +18,7 @@ MobilCase is an iOS case study project developed for Akakçe. The application is
 - **MVVM (Model-View-ViewModel)** is implemented for better separation of concerns.
 - **SOLID principles** are followed.
 - **UIKit + DiffableDataSource** ensures an efficient listing experience.
+- **Unit tests** have been added for ListingViewModel, covering product fetching logic.
 
 ## Minimum Deployment Target
 
@@ -51,14 +52,11 @@ MobilCase is an iOS case study project developed for Akakçe. The application is
 
 ```
 MobilCase-iOS
-├── Resources         # UI components, colors, fonts, etc.
-├── Models            # Data models (Product, APIResponse, etc.)
-├── ViewModels        # Business logic and data processing layer
-├── Screens           # Screens built with UIKit
-├── Networking        # API calls and network management
-├── Services          # Business logic and data operations
-├── Utils             # Helper functions and extensions
-└── MobilCase.xcodeproj  # Xcode project file
+├── Models                # Data models (Product, APIResponse, etc.)
+├── Scenes                # Screens built with UIKit
+├── Networking            # API calls and network management
+└── MobilCase.xcodeproj   # Xcode project file
+MobilCase-iOSTests        # Contains unit tests for ViewModels
 ```
 
 ## Git Workflow

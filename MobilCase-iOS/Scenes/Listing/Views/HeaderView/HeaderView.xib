@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HeaderView" customModule="MobilCase_iOS" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="HeaderView" customModule="MobilCase_iOS" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="51"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R66-CN-Ux0">
+                    <rect key="frame" x="0.0" y="0.0" width="393" height="51"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7R7-gJ-tHc">
+                            <rect key="frame" x="8" y="16" width="377" height="19"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="7R7-gJ-tHc" secondAttribute="bottom" constant="16" id="MAA-Cr-nWF"/>
+                        <constraint firstItem="7R7-gJ-tHc" firstAttribute="top" secondItem="R66-CN-Ux0" secondAttribute="top" constant="16" id="Qq0-7q-alV"/>
+                        <constraint firstItem="7R7-gJ-tHc" firstAttribute="leading" secondItem="R66-CN-Ux0" secondAttribute="leading" constant="8" id="RjP-vB-lw8"/>
+                        <constraint firstAttribute="trailing" secondItem="7R7-gJ-tHc" secondAttribute="trailing" constant="8" id="cC2-6c-AwA"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="R66-CN-Ux0" secondAttribute="bottom" id="cwP-TQ-emw"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="R66-CN-Ux0" secondAttribute="trailing" id="hIs-b4-SsG"/>
+                <constraint firstItem="R66-CN-Ux0" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="oaj-0t-0jN"/>
+                <constraint firstItem="R66-CN-Ux0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="xts-Uq-5Zt"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="titleLabel" destination="7R7-gJ-tHc" id="ADr-jr-a0k"/>
+            </connections>
+            <point key="canvasLocation" x="96.946564885496173" y="-263.02816901408454"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
